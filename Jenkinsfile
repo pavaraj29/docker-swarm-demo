@@ -18,7 +18,7 @@ pipeline {
     stages {
         stage("maven build") {
             steps {
-                sh '''sudo rm -rf docker-swarm-demo
+                sh '''rm -rf docker-swarm-demo
                       git clone https://github.com/pavaraj29/docker-swarm-demo.git
                       cd docker-swarm-demo/maven
                       sudo docker build -t maven-sample .
