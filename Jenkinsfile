@@ -46,8 +46,8 @@ pipeline {
             
             steps {
                 sh '''
-                sudo docker stack rm ${stack_name}
-                sudo docker stack deploy -c ${stack_file} ${stack_name}   
+                #sudo docker stack rm ${stack_name}
+                sudo docker stack deploy -c ${stack_file} ${stack_name} --with-registry-auth
                 '''
             }
         }
