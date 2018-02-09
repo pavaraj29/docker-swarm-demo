@@ -12,7 +12,8 @@ pipeline {
         VERSION= "${BUILD_ID}"
         mvn_image= "pavanraj29/maven-sample"
         tomcat_image= "pavanraj29/tomcat-sample"
-        stack= "sample-stack"
+        stack_name= "sample-stack"
+        stack_file= "sample-stack.yaml"
      }
     
     stages {
@@ -44,7 +45,9 @@ pipeline {
         stage("Docker Stack Deployment") {
             
             steps {
-                sh 'sudo docker stack deploy -c sample-stack.yaml sample-stack'
+                sh '''
+                sudo docker stack rm ${stack_name}
+                sudo docker stack deploy -c ${stack_file} ${stack_name}            
             }
         }
      }  
