@@ -24,6 +24,7 @@ pipeline {
                       sudo docker build -t maven-sample .
                       sed -i -e 's/maven-sample/maven-sample:'${VERSION}'/g' ../sample-stack.yaml
                       sudo docker login -u pavanraj29 -p Pavan@123
+                      sudo docker tag maven-sample ${mvn_image}:${VERSION}
                       sudo docker push ${mvn_image}:${VERSION}
                    '''                         
             }
@@ -35,6 +36,7 @@ pipeline {
                       sudo docker build -t tomcat-sample .
                       sed -i -e 's/tomcat-sample/tomcat-sample:'${VERSION}'/g' ../sample-stack.yaml
                       sudo docker login -u pavanraj29 -p Pavan@123
+                      sudo docker tag tomcat-sample ${tomcat_image}:${VERSION}
                       sudo docker push ${tomcat_image}:${VERSION}
                 ''' 
             }
