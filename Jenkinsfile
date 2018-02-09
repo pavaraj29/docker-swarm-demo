@@ -23,7 +23,7 @@ pipeline {
                       git clone https://github.com/pavaraj29/docker-swarm-demo.git
                       cd docker-swarm-demo/maven
                       sudo docker build -t maven-sample .
-                      sed -i -e 's/maven-sample/'${mvn_image}':'${VERSION}'/g' ../sample-stack.yaml
+                      sed -i -e 's/maven-sample/"'${mvn_image}':'${VERSION}'"/g' ../sample-stack.yaml
                       sudo docker login -u pavanraj29 -p Pavan@123
                       sudo docker tag maven-sample ${mvn_image}:${VERSION}
                       sudo docker push ${mvn_image}:${VERSION}
@@ -35,7 +35,7 @@ pipeline {
               sh '''
                       cd docker-swarm-demo/tomcat
                       sudo docker build -t tomcat-sample .
-                      sed -i -e 's/tomcat-sample/'${tomcat_image}:'${VERSION}'/g' ../sample-stack.yaml
+                      sed -i -e 's/tomcat-sample/"'${tomcat_image}:'${VERSION}'"/g' ../sample-stack.yaml
                       sudo docker login -u pavanraj29 -p Pavan@123
                       sudo docker tag tomcat-sample ${tomcat_image}:${VERSION}
                       sudo docker push ${tomcat_image}:${VERSION}
