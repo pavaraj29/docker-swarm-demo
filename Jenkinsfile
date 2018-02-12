@@ -12,19 +12,24 @@ pipeline {
         VERSION= "${BUILD_ID}"
         mvn_image= "pavanraj29/maven-sample"
         tomcat_image= "pavanraj29/tomcat-sample"
-        stack= "sample-stack"
+        stack_name= "sample-stack"
+        stack_file= "sample-stack.yaml"
      }
     
     stages {
         stage("maven build") {
             steps {
-                sh '''rm -rf docker-swarm-demo
+                sh '''
+                      rm -rf docker-swarm-demo
                       git clone https://github.com/pavaraj29/docker-swarm-demo.git
                       cd docker-swarm-demo/maven
                       sudo docker build -t maven-sample .
-                      sed -i -e 's/maven-sample/maven-sample:'${VERSION}'/g' sample-stack.yaml
+                      #sed -i -e 's/maven-sample/maven-sample:'${VERSION}'/g' ../sample-stack.yaml
                       sudo docker login -u pavanraj29 -p Pavan@123
+                      sudo docker tag maven-sample ${mvn_image}:${VERSION}
+                      sudo docker tag maven-sample ${mvn_image}
                       sudo docker push ${mvn_image}:${VERSION}
+                      sudo docker push ${mvn_image}
                    '''                         
             }
         }
@@ -33,16 +38,24 @@ pipeline {
               sh '''
                       cd docker-swarm-demo/tomcat
                       sudo docker build -t tomcat-sample .
-                      sed -i -e 's/tomcat-sample/tomcat-sample:'${VERSION}'/g' sample-stack.yaml
+                      #sed -i -e 's/tomcat-sample/tomcat-sample:'${VERSION}'/g' ../sample-stack.yaml
                       sudo docker login -u pavanraj29 -p Pavan@123
+                      sudo docker tag tomcat-sample ${tomcat_image}:${VERSION}
+                      sudo docker tag tomcat-sample ${tomcat_image}
                       sudo docker push ${tomcat_image}:${VERSION}
+                      sudo docker push ${tomcat_image}
                 ''' 
             }
         }
         stage("Docker Stack Deployment") {
             
             steps {
-                sh 'sudo docker stack deploy -c sample-stack.yaml sample-stack'
+                sh '''
+                sudo docker stack rm ${stack_name}
+                #sudo docker login -u pavanraj29 -p Pavan@123
+                sleep 20
+                sudo docker stack deploy -c ${stack_file} ${stack_name}
+                '''
             }
         }
      }  
