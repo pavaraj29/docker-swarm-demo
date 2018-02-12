@@ -56,7 +56,6 @@ pipeline {
             steps {
                 sh '''
                 sudo docker stack rm ${stack_name}
-                #sudo docker login -u pavanraj29 -p Pavan@123
                 sleep 20
                 sudo docker stack deploy -c ${stack_file} ${stack_name}
                 '''
