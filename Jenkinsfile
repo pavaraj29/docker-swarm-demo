@@ -1,7 +1,9 @@
 pipeline {
     agent any
 
-    properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '10']]]);
+    options {
+    buildDiscarder(logRotator(numToKeepStr: '10'))
+}
     
     environment {
     // Environment variable identifiers need to be both valid bash variable
