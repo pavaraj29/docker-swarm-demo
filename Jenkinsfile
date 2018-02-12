@@ -1,6 +1,8 @@
 pipeline {
     agent any
 
+    properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '10']]]);
+    
     environment {
     // Environment variable identifiers need to be both valid bash variable
     // identifiers and valid Groovy variable identifiers. If you use an invalid
